@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+             https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="petshopPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Entidades -->
+        <class>br.edu.ifpi.Model.Cliente</class>
+        <class>br.edu.ifpi.Model.Funcionario</class>
+        <class>br.edu.ifpi.Model.Animal</class>
+        <class>br.edu.ifpi.Model.Agendamento</class>
+        <class>br.edu.ifpi.Model.Servico</class>
+        <class>br.edu.ifpi.Model.Tosa</class>
+        <class>br.edu.ifpi.Model.Banho</class>
+        <class>br.edu.ifpi.Model.ServicoPadrao</class>
+
+        <properties>
+            <!-- Configuração do PostgreSQL (Render Cloud) -->
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://dpg-d41rm6euk2gs738oscgg-a.oregon-postgres.render.com/petshop_of4y?sslmode=require"/>
+            <property name="jakarta.persistence.jdbc.user" value="petshop_of4y_user"/>
+            <property name="jakarta.persistence.jdbc.password" value="aZuQuXZpaUaQc2Bv4M7I0LXJtskoo11Z"/>
+
+            <!-- Configurações do Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/> 
+
+            <!-- Desativa logs e SQL no console -->
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.use_sql_comments" value="false"/>
+            <property name="hibernate.generate_statistics" value="false"/>
+            <property name="hibernate.session.events.log" value="false"/>
+            
+            <!-- Silencia logs de inicialização do Hibernate -->
+            <property name="hibernate.jpa.compliance.global_id_generators" value="true"/>
+            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>
