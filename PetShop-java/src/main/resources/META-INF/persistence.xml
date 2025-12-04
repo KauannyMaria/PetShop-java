@@ -21,9 +21,9 @@
         <properties>
             <!-- Configuração do PostgreSQL (Render Cloud) -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://dpg-d41rm6euk2gs738oscgg-a.oregon-postgres.render.com/petshop_of4y?sslmode=require"/>
-            <property name="jakarta.persistence.jdbc.user" value="petshop_of4y_user"/>
-            <property name="jakarta.persistence.jdbc.password" value="aZuQuXZpaUaQc2Bv4M7I0LXJtskoo11Z"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://dpg-d4p18qqli9vc73apmoa0-a.virginia-postgres.render.com:5432/petshop_db_y2da?sslmode=require"/>
+            <property name="jakarta.persistence.jdbc.user" value="petshop_db_y2da_user"/>
+            <property name="jakarta.persistence.jdbc.password" value="mSAhyibrT6cZ09Szex51igdK1ifhykl8"/>
 
             <!-- Configurações do Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

@@ -6,14 +6,29 @@ import br.edu.ifpi.Model.Gato;
 
 /**
  * 🏭 Factory Method para criação de Animais
- * Padrão de Projeto: Factory Method
+ * Padrões de Projeto: Factory Method + Singleton
  * 
  * Vantagens:
  * - Encapsula a lógica de criação de objetos
+ * - Garante uma única instância da factory
  * - Facilita a adição de novos tipos de animais
  * - Reduz acoplamento no código cliente
  */
 public class AnimalFactory {
+    
+    private static AnimalFactory instance;
+    
+    // Construtor privado para evitar instanciação externa
+    private AnimalFactory() {
+    }
+    
+    // Método para obter a instância única (Singleton)
+    public static synchronized AnimalFactory getInstance() {
+        if (instance == null) {
+            instance = new AnimalFactory();
+        }
+        return instance;
+    }
     
     /**
      * Cria um animal baseado na espécie informada
@@ -23,9 +38,9 @@ public class AnimalFactory {
      * @param idade idade do animal
      * @param raca raça do animal
      * @return instância de Animal (Cachorro ou Gato)
-     * @throws IllegalArgumentException se a espécie não for suportada
+     * @throws IllegalArgumentException se a espécie não foi suportada
      */
-    public static Animal criarAnimal(String especie, String nome, int idade, String raca) {
+    public Animal criarAnimal(String especie, String nome, int idade, String raca) {
         if (especie == null || especie.trim().isEmpty()) {
             throw new IllegalArgumentException("Espécie não pode ser vazia");
         }
@@ -46,7 +61,7 @@ public class AnimalFactory {
      * @param especie tipo do animal
      * @return true se a espécie é suportada, false caso contrário
      */
-    public static boolean especieSuportada(String especie) {
+    public boolean especieSuportada(String especie) {
         if (especie == null || especie.trim().isEmpty()) {
             return false;
         }

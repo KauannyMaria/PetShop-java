@@ -6,17 +6,38 @@ import jakarta.persistence.Persistence;
 
 /**
  * Classe utilitária para gerenciar o EntityManager.
+ * Padrão de Projeto: Singleton
+ * 
+ * Vantagens:
+ * - Garante uma única instância de EntityManagerFactory
+ * - Economiza recursos do sistema
+ * - Controla acesso ao gerenciador de entidades
  */
 public class JPAUtil {
 
-    private static final EntityManagerFactory emf = 
-            Persistence.createEntityManagerFactory("petshopPU");
+    private static JPAUtil instance;
+    private final EntityManagerFactory emf;
 
-    public static EntityManager getEntityManager() {
+    // Construtor privado para evitar instanciação externa
+    private JPAUtil() {
+        this.emf = Persistence.createEntityManagerFactory("petshopPU");
+    }
+
+    // Método para obter a instância única (Singleton)
+    public static synchronized JPAUtil getInstance() {
+        if (instance == null) {
+            instance = new JPAUtil();
+        }
+        return instance;
+    }
+
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public static void fechar() {
-        emf.close();
+    public void fechar() {
+        if (emf != null && emf.isOpen()) {
+            emf.close();
+        }
     }
 }

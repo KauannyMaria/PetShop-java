@@ -7,14 +7,29 @@ import br.edu.ifpi.Model.ServicoPadrao;
 
 /**
  * 🏭 Factory Method para criação de Serviços
- * Padrão de Projeto: Factory Method
+ * Padrões de Projeto: Factory Method + Singleton
  * 
  * Vantagens:
  * - Centraliza a criação de serviços
+ * - Garante uma única instância da factory
  * - Facilita a manutenção e expansão
  * - Reduz duplicação de código
  */
 public class ServicoFactory {
+    
+    private static ServicoFactory instance;
+    
+    // Construtor privado para evitar instanciação externa
+    private ServicoFactory() {
+    }
+    
+    // Método para obter a instância única (Singleton)
+    public static synchronized ServicoFactory getInstance() {
+        if (instance == null) {
+            instance = new ServicoFactory();
+        }
+        return instance;
+    }
     
     /**
      * Cria um serviço baseado no tipo informado
@@ -23,7 +38,7 @@ public class ServicoFactory {
      * @param preco valor do serviço
      * @return instância de Servico
      */
-    public static Servico criarServico(String tipo, double preco) {
+    public Servico criarServico(String tipo, double preco) {
         if (tipo == null || tipo.trim().isEmpty()) {
             throw new IllegalArgumentException("Tipo de serviço não pode ser vazio");
         }
@@ -52,7 +67,7 @@ public class ServicoFactory {
      * @param tipo tipo do serviço
      * @return instância de Servico com preço padrão
      */
-    public static Servico criarServicoComPrecosPadrao(String tipo) {
+    public Servico criarServicoComPrecosPadrao(String tipo) {
         if (tipo == null || tipo.trim().isEmpty()) {
             throw new IllegalArgumentException("Tipo de serviço não pode ser vazio");
         }
@@ -73,7 +88,7 @@ public class ServicoFactory {
      * 
      * @return array com os tipos de serviços especializados
      */
-    public static String[] tiposEspecializados() {
+    public String[] tiposEspecializados() {
         return new String[]{"banho", "tosa"};
     }
 }

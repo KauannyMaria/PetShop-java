@@ -13,7 +13,8 @@ import java.util.Scanner;
 public class PetshopSistema {
 
     public static void main(String[] args) {
-        EntityManager em = JPAUtil.getEntityManager();
+        // Usando Singleton do JPAUtil
+        EntityManager em = JPAUtil.getInstance().getEntityManager();
         ClienteDAO clienteDAO = new ClienteDAO(em);
         AnimalDAO animalDAO = new AnimalDAO(em);
         ServicoDAO servicoDAO = new ServicoDAO(em);
@@ -259,8 +260,8 @@ public class PetshopSistema {
                         System.out.println("❌ Cliente não encontrado.");
                     } else {
                         try {
-                            // Usando Factory Method para criar o animal
-                            Animal animal = AnimalFactory.criarAnimal(especie, nome, idade, raca);
+                            // Usando Singleton do AnimalFactory
+                            Animal animal = AnimalFactory.getInstance().criarAnimal(especie, nome, idade, raca);
                             animal.setDono(dono);
                             animalDAO.salvar(animal);
                             System.out.println("✅ Animal cadastrado com sucesso!");
@@ -359,8 +360,8 @@ public class PetshopSistema {
                     } while (preco <= 0);
 
                     try {
-                        // Usando Factory Method para criar o serviço
-                        Servico servico = ServicoFactory.criarServico(tipo, preco);
+                        // Usando Singleton do ServicoFactory
+                        Servico servico = ServicoFactory.getInstance().criarServico(tipo, preco);
                         servicoDAO.salvar(servico);
                         System.out.println("✅ Serviço cadastrado com sucesso!");
                     } catch (IllegalArgumentException e) {
@@ -450,7 +451,7 @@ public class PetshopSistema {
         } while (opcao != 0);
 
         em.close();
-        JPAUtil.fechar();
+        JPAUtil.getInstance().fechar();
         sc.close();
     }
 }
