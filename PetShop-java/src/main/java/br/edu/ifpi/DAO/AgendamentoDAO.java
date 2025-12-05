@@ -4,9 +4,6 @@ import br.edu.ifpi.Model.Agendamento;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 
-/**
- * 📅 DAO responsável pelos agendamentos do sistema.
- */
 public class AgendamentoDAO extends JPADao<Agendamento> {
 
     public AgendamentoDAO(EntityManager em) {
@@ -27,5 +24,15 @@ public class AgendamentoDAO extends JPADao<Agendamento> {
 
     public Agendamento buscarPorId(Long id) {
         return em.find(Agendamento.class, id);
+    }
+
+    // 🔍 Buscar só os agendamentos do cliente
+    public List<Agendamento> buscarPorCliente(Long clienteId) {
+        return em.createQuery(
+                "SELECT a FROM Agendamento a WHERE a.cliente.id = :clienteId",
+                Agendamento.class
+        )
+        .setParameter("clienteId", clienteId)
+        .getResultList();
     }
 }

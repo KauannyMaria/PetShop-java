@@ -2,11 +2,9 @@ package br.edu.ifpi.DAO;
 
 import br.edu.ifpi.Model.Animal;
 import jakarta.persistence.EntityManager;
+
 import java.util.List;
 
-/**
- * 🐕 DAO responsável por gerenciar os dados dos animais no banco.
- */
 public class AnimalDAO extends JPADao<Animal> {
 
     public AnimalDAO(EntityManager em) {
@@ -30,5 +28,15 @@ public class AnimalDAO extends JPADao<Animal> {
     // Buscar animal por ID
     public Animal buscarPorId(Long id) {
         return em.find(Animal.class, id);
+    }
+
+    // 🔍 Buscar animais pelo dono
+    public List<Animal> buscarPorDono(Long donoId) {
+        return em.createQuery(
+                "SELECT a FROM Animal a WHERE a.dono.id = :donoId",
+                Animal.class
+        )
+        .setParameter("donoId", donoId)
+        .getResultList();
     }
 }

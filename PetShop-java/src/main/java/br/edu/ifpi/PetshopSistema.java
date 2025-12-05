@@ -60,22 +60,35 @@ public class PetshopSistema {
                         sc.nextLine();
                         
                         switch (opcaoCliente) {
-                            case 1 -> { // Listar animais
-                                System.out.println("\n┌─────────────────────────────────────┐");
-                                System.out.println("│  🐾 MEUS ANIMAIS                    │");
-                                System.out.println("└─────────────────────────────────────┘");
-                                List<Animal> animais = animalDAO.listarTodos();
-                                if (animais.isEmpty()) {
-                                    System.out.println("Nenhum animal cadastrado.");
+                            case 1 -> { // Listar animais DO CLIENTE
+                                System.out.print("Digite seu ID de Cliente: ");
+                                int idCliente = sc.nextInt();
+                                sc.nextLine();
+
+                                Cliente cliente = clienteDAO.buscarPorId((long) idCliente);
+
+                                if (cliente == null) {
+                                    System.out.println("❌ Cliente não encontrado!");
                                 } else {
-                                    for (Animal a : animais) {
-                                        System.out.println("ID: " + a.getId() +
-                                                " | Nome: " + a.getNome() +
-                                                " | Espécie: " + a.getEspecie() +
-                                                " | Dono: " + a.getDono().getNome());
+                                    System.out.println("\n┌─────────────────────────────────────┐");
+                                    System.out.println("│  🐾 MEUS ANIMAIS                    │");
+                                    System.out.println("└─────────────────────────────────────┘");
+
+                                    List<Animal> animais = animalDAO.buscarPorDono(cliente.getId());
+
+                                    if (animais.isEmpty()) {
+                                        System.out.println("Você não possui animais cadastrados.");
+                                    } else {
+                                        for (Animal a : animais) {
+                                            System.out.println("ID: " + a.getId() +
+                                                    " | Nome: " + a.getNome() +
+                                                    " | Espécie: " + a.getEspecie() +
+                                                    " | Raça: " + a.getRaca());
+                                        }
                                     }
                                 }
                             }
+
                             case 2 -> { // Ver serviços
                                 System.out.println("\n┌─────────────────────────────────────┐");
                                 System.out.println("│  🛁 SERVIÇOS DISPONÍVEIS            │");
@@ -118,19 +131,31 @@ public class PetshopSistema {
                                     System.out.println("✅ Agendamento realizado com sucesso!");
                                 }
                             }
-                            case 4 -> { // Ver agendamentos
-                                System.out.println("\n┌─────────────────────────────────────┐");
-                                System.out.println("│  📋 MEUS AGENDAMENTOS               │");
-                                System.out.println("└─────────────────────────────────────┘");
-                                List<Agendamento> agendamentos = agendamentoDAO.listarTodos();
-                                if (agendamentos.isEmpty()) {
-                                    System.out.println("Nenhum agendamento encontrado.");
+                            
+                            case 4 -> { // Meus agendamentos
+                                System.out.print("Digite seu ID de Cliente: ");
+                                int idCliente = sc.nextInt();
+                                sc.nextLine();
+
+                                Cliente cliente = clienteDAO.buscarPorId((long) idCliente);
+
+                                if (cliente == null) {
+                                    System.out.println("❌ Cliente não encontrado!");
                                 } else {
-                                    for (Agendamento a : agendamentos) {
-                                        System.out.println("ID: " + a.getId() +
-                                                " | Cliente: " + a.getCliente().getNome() +
-                                                " | Animal: " + a.getAnimal().getNome() +
-                                                " | Serviço: " + a.getServico().getTipo());
+                                    System.out.println("\n┌─────────────────────────────────────┐");
+                                    System.out.println("│  📋 MEUS AGENDAMENTOS               │");
+                                    System.out.println("└─────────────────────────────────────┘");
+
+                                    List<Agendamento> agendamentos = agendamentoDAO.buscarPorCliente(cliente.getId());
+
+                                    if (agendamentos.isEmpty()) {
+                                        System.out.println("Você não possui agendamentos.");
+                                    } else {
+                                        for (Agendamento a : agendamentos) {
+                                            System.out.println("ID: " + a.getId() +
+                                                    " | Animal: " + a.getAnimal().getNome() +
+                                                    " | Serviço: " + a.getServico().getTipo());
+                                        }
                                     }
                                 }
                             }
